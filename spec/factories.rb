@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :item do
-    name    "Capital One"
+    name    { "Capital One" }
     type    { ["expense", "income"].sample }
   end
 

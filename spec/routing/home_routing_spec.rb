@@ -4,7 +4,7 @@ describe HomeController do
 
   describe "routing" do
 
-    it "recognizes and properly generates a root route to home#index when supplying: '/'" do
+    it ":get '/' should route to home#index" do
       { get: "/" }.should route_to("home#index")
     end
   end

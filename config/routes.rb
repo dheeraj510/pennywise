@@ -3,5 +3,6 @@ Pennywise::Application.routes.draw do
 
   scope constraints: { id: /[0-9]+/ } do
     resources :items
+    resources :transactions, controller: "transaction_entries"
   end
 end

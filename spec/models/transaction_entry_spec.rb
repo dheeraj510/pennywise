@@ -14,6 +14,7 @@ describe TransactionEntry do
     it { should respond_to(:transacted_at) }
     it { should respond_to(:cleared_at) }
     it { should respond_to(:amount) }
+    it { should respond_to(:amount_value) }
     it { should allow_mass_assignment_of(:item_id) }
     it { should allow_mass_assignment_of(:entry_type) }
     it { should allow_mass_assignment_of(:check_number) }
@@ -53,5 +54,26 @@ describe TransactionEntry do
   end
 
   describe "methods" do
+
+    before(:each) do
+      @attrs = FactoryGirl.attributes_for(:transaction_entry)
+      @item = FactoryGirl.create(:item)
+      @transaction = @item.transaction_entries.create(@attrs)
+    end
+
+    describe "amount_value" do
+
+      it "should return an instance of Money" do
+        @transaction.amount_value.should be_a(Money)
+      end
+
+      it "should return an attribute of 'cents' with the value of @transaction.amount" do
+        @transaction.amount_value.cents.should eq @transaction.amount
+      end
+
+      it "should return an attribute of 'currency' as an instance of Money::Currency" do
+        @transaction.amount_value.currency.should be_a(Money::Currency)
+      end
+    end
   end
 end

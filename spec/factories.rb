@@ -13,5 +13,6 @@ FactoryGirl.define do
     cleared         { false }
     transacted_at   { Time.now }
     cleared_at      nil
+    amount          { SecureRandom.random_number(1e5.to_i) }
   end
 end

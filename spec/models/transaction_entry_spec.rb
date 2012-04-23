@@ -13,6 +13,8 @@ describe TransactionEntry do
     it { should respond_to(:cleared) }
     it { should respond_to(:transacted_at) }
     it { should respond_to(:cleared_at) }
+    it { should respond_to(:amount) }
+    it { should respond_to(:amount_value) }
     it { should allow_mass_assignment_of(:item_id) }
     it { should allow_mass_assignment_of(:entry_type) }
     it { should allow_mass_assignment_of(:check_number) }
@@ -20,6 +22,7 @@ describe TransactionEntry do
     it { should allow_mass_assignment_of(:transacted_at) }
     it { should allow_mass_assignment_of(:cleared) }
     it { should allow_mass_assignment_of(:cleared_at) }
+    it { should allow_mass_assignment_of(:amount) }
   end
 
   describe "validations" do
@@ -33,9 +36,11 @@ describe TransactionEntry do
     it { should validate_presence_of(:item_id) }
     it { should validate_presence_of(:entry_type) }
     it { should validate_presence_of(:transacted_at) }
+    it { should validate_presence_of(:amount) }
 
     it { should validate_numericality_of(:item_id) }
     it { should validate_numericality_of(:check_number) }
+    it { should validate_numericality_of(:amount) }
 
     it { should allow_value('deposit').for(:entry_type) }
     it { should allow_value('autodraft').for(:entry_type) }
@@ -49,5 +54,26 @@ describe TransactionEntry do
   end
 
   describe "methods" do
+
+    before(:each) do
+      @attrs = FactoryGirl.attributes_for(:transaction_entry)
+      @item = FactoryGirl.create(:item)
+      @transaction = @item.transaction_entries.create(@attrs)
+    end
+
+    describe "amount_value" do
+
+      it "should return an instance of Money" do
+        @transaction.amount_value.should be_a(Money)
+      end
+
+      it "should return an attribute of 'cents' with the value of @transaction.amount" do
+        @transaction.amount_value.cents.should eq @transaction.amount
+      end
+
+      it "should return an attribute of 'currency' as an instance of Money::Currency" do
+        @transaction.amount_value.currency.should be_a(Money::Currency)
+      end
+    end
   end
 end

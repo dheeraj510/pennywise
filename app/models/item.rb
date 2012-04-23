@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  has_many :transaction_entries
+  has_many :transaction_entries, dependent: :destroy
 
   attr_accessible :name, :item_type
 

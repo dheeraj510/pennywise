@@ -1,7 +1,7 @@
 FactoryGirl.define do
 
   factory :item do
-    name          { "Capital One" }
+    name          { Forgery(:name).company_name }
     item_type     { Item::ITEM_TYPES.sample }
   end
 

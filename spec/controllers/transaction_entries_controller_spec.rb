@@ -12,17 +12,23 @@ describe TransactionEntriesController do
   describe "GET 'index'" do
 
     before(:each) do
-      get :index
+      get :index, item_id: @item.id
     end
 
     it "should be successful" do
       response.should be_success
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
+    end
+
     it "should assign @transactions" do
       assigns(:transactions).should be_an(Array)
       assigns(:transactions).should_not be_empty
       assigns(:transactions).sample.should be_a(TransactionEntry)
+      assigns(:transactions).sample.item_id.should eq @item.id
     end
 
     it "should render 'index' template" do
@@ -33,15 +39,21 @@ describe TransactionEntriesController do
   describe "GET 'new'" do
 
     before(:each) do
-      get :new
+      get :new, item_id: @item.id
     end
 
     it "should be successful" do
       response.should be_success
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
+    end
+
     it "should assign @transaction" do
       assigns(:transaction).should be_a(TransactionEntry)
+      assigns(:transaction).item_id.should eq @item.id
     end
 
     it "should render 'new' template" do
@@ -52,37 +64,46 @@ describe TransactionEntriesController do
   describe "POST 'create'" do
 
     before(:each) do
-      post :create, transaction: @attrs
+      post :create, item_id: @item.id, transaction_entry: @attrs
     end
 
     it "should be successful and redirect (301)" do
-      ap assigns(:transaction).errors.full_messages
       response.status.should be(301)
+    end
+
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
     end
 
     it "should assign @transaction" do
       assigns(:transaction).should be_a(TransactionEntry)
-      assigns(:transaction).item_id.should eq @attrs[:item_id]
+      assigns(:transaction).item_id.should eq @item.id
     end
 
     it "should redirect to 'transaction_entries/show'" do
-      response.should redirect_to transactions_path
+      response.should redirect_to item_transactions_path
     end
   end
 
   describe "GET 'show'" do
 
     before(:each) do
-      get :show, id: @transaction_entry.id
+      get :show, item_id: @item.id, id: @transaction_entry.id
     end
 
     it "should be successful" do
       response.should be_success
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
+    end
+
     it "should assign @transaction" do
       assigns(:transaction).should be_a(TransactionEntry)
-      assigns(:transaction).attributes.should eq @transaction.attributes
+      assigns(:transaction).item_id.should eq @item.id
     end
 
     it "should render 'show' template" do
@@ -93,16 +114,21 @@ describe TransactionEntriesController do
   describe "GET 'edit'" do
 
     before(:each) do
-      get :edit, id: @transaction_entry.id
+      get :edit, item_id: @item.id, id: @transaction_entry.id
     end
 
     it "should be successful" do
       response.should be_success
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
+    end
+
     it "should assign @transaction" do
       assigns(:transaction).should be_a(TransactionEntry)
-      assigns(:transaction).attributes.should eq @transaction.attributes
+      assigns(:transaction).item_id.should eq @item.id
     end
 
     it "should render 'edit' template" do
@@ -113,36 +139,47 @@ describe TransactionEntriesController do
   describe "PUT 'update'" do
 
     before(:each) do
-      @updated_attrs = @attrs.merge(check_number: SecureRandom.random_number(1e4.to_i))
-      put :update, id: @transaction.id, transaction_entry: @updated_attrs
+      @updated_attrs = { check_number: SecureRandom.random_number(1e4.to_i) }
+      put :update, item_id: @item.id, id: @transaction_entry.id, transaction_entry: @updated_attrs
     end
 
     it "should be successful and redirect (301)" do
       response.status.should be(301)
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
+    end
+
     it "should assign @transaction" do
       assigns(:transaction).should be_a(TransactionEntry)
+      assigns(:transaction).item_id.should eq @item.id
       assigns(:transaction).check_number.should eq @updated_attrs[:check_number]
     end
 
     it "should redirect to 'transaction_entries/show'" do
-      response.should redirect_to transactions_path
+      response.should redirect_to item_transactions_path
     end
   end
 
   describe "DELETE 'destroy'" do
 
     before(:each) do
-      delete :destroy, id: @transaction_entry.id
+      delete :destroy, item_id: @item.id, id: @transaction_entry.id
     end
 
     it "should be successful and redirect (301)" do
       response.status.should be(301)
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).id.should eq @item.id
+    end
+
     it "should redirect to 'transaction_entries/index'" do
-      response.should redirect_to transactions_path
+      response.should redirect_to item_transactions_path
     end
   end
 end

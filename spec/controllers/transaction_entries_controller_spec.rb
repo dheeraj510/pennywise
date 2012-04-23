@@ -4,7 +4,8 @@ describe TransactionEntriesController do
   render_views
 
   before(:each) do
-    @transaction_entry = FactoryGirl.create(:transaction_entry)
+    @item = FactoryGirl.create(:item)
+    @transaction_entry = FactoryGirl.create(:transaction_entry, item: @item)
     @attrs = FactoryGirl.attributes_for(:transaction_entry)
   end
 
@@ -16,6 +17,12 @@ describe TransactionEntriesController do
 
     it "should be successful" do
       response.should be_success
+    end
+
+    it "should assign @transactions" do
+      assigns(:transactions).should be_an(Array)
+      assigns(:transactions).should_not be_empty
+      assigns(:transactions).sample.should be_a(TransactionEntry)
     end
 
     it "should render 'index' template" do
@@ -33,6 +40,10 @@ describe TransactionEntriesController do
       response.should be_success
     end
 
+    it "should assign @transaction" do
+      assigns(:transaction).should be_a(TransactionEntry)
+    end
+
     it "should render 'new' template" do
       response.should render_template("transaction_entries/new")
     end
@@ -41,11 +52,17 @@ describe TransactionEntriesController do
   describe "POST 'create'" do
 
     before(:each) do
-      post :create, transaction_entry: @attrs
+      post :create, transaction: @attrs
     end
 
     it "should be successful and redirect (301)" do
+      ap assigns(:transaction).errors.full_messages
       response.status.should be(301)
+    end
+
+    it "should assign @transaction" do
+      assigns(:transaction).should be_a(TransactionEntry)
+      assigns(:transaction).item_id.should eq @attrs[:item_id]
     end
 
     it "should redirect to 'transaction_entries/show'" do
@@ -63,6 +80,11 @@ describe TransactionEntriesController do
       response.should be_success
     end
 
+    it "should assign @transaction" do
+      assigns(:transaction).should be_a(TransactionEntry)
+      assigns(:transaction).attributes.should eq @transaction.attributes
+    end
+
     it "should render 'show' template" do
       response.should render_template("transaction_entries/show")
     end
@@ -78,6 +100,11 @@ describe TransactionEntriesController do
       response.should be_success
     end
 
+    it "should assign @transaction" do
+      assigns(:transaction).should be_a(TransactionEntry)
+      assigns(:transaction).attributes.should eq @transaction.attributes
+    end
+
     it "should render 'edit' template" do
       response.should render_template("transaction_entries/edit")
     end
@@ -86,11 +113,17 @@ describe TransactionEntriesController do
   describe "PUT 'update'" do
 
     before(:each) do
-      put :update, transaction_entry: @attrs.merge(name: "")
+      @updated_attrs = @attrs.merge(check_number: SecureRandom.random_number(1e4.to_i))
+      put :update, id: @transaction.id, transaction_entry: @updated_attrs
     end
 
     it "should be successful and redirect (301)" do
       response.status.should be(301)
+    end
+
+    it "should assign @transaction" do
+      assigns(:transaction).should be_a(TransactionEntry)
+      assigns(:transaction).check_number.should eq @updated_attrs[:check_number]
     end
 
     it "should redirect to 'transaction_entries/show'" do

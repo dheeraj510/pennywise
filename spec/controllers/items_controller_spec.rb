@@ -18,6 +18,12 @@ describe ItemsController do
       response.should be_success
     end
 
+    it "should assign @items" do
+      assigns(:items).should be_an(Array)
+      assigns(:items).should_not be_empty
+      assigns(:items).sample.should be_an(Item)
+    end
+
     it "should render 'index' template" do
       response.should render_template("items/index")
     end
@@ -31,6 +37,10 @@ describe ItemsController do
 
     it "should be successful" do
       response.should be_success
+    end
+
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
     end
 
     it "should render 'new' template" do
@@ -48,6 +58,11 @@ describe ItemsController do
       response.status.should be(301)
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).name.should eq @attrs[:name]
+    end
+
     it "should redirect to 'items/show'" do
       response.should redirect_to items_path
     end
@@ -61,6 +76,11 @@ describe ItemsController do
 
     it "should be successful" do
       response.should be_success
+    end
+
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).attributes.should eq @item.attributes
     end
 
     it "should render 'show' template" do
@@ -78,6 +98,11 @@ describe ItemsController do
       response.should be_success
     end
 
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).attributes.should eq @item.attributes
+    end
+
     it "should render 'edit' template" do
       response.should render_template("items/edit")
     end
@@ -86,11 +111,17 @@ describe ItemsController do
   describe "PUT 'update'" do
 
     before(:each) do
-      put :update, item: @attrs.merge(name: "")
+      @updated_attrs = @attrs.merge(name: "Katy Reese")
+      put :update, id: @item.id, item: @updated_attrs
     end
 
     it "should be successful and redirect (301)" do
       response.status.should be(301)
+    end
+
+    it "should assign @item" do
+      assigns(:item).should be_an(Item)
+      assigns(:item).name.should eq @updated_attrs[:name]
     end
 
     it "should redirect to 'items/show'" do

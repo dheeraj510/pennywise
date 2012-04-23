@@ -11,20 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423001234) do
+ActiveRecord::Schema.define(:version => 20120423004223) do
 
   create_table "items", :force => true do |t|
     t.string   "name"
-    t.string   "type"
+    t.string   "item_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  add_index "items", ["name", "type"], :name => "index_items_on_name_and_type", :unique => true
+  add_index "items", ["name", "item_type"], :name => "index_items_on_name_and_item_type", :unique => true
 
   create_table "transaction_entries", :force => true do |t|
     t.integer  "item_id"
-    t.string   "type"
+    t.string   "entry_type"
     t.integer  "check_number"
     t.string   "memo"
     t.boolean  "cleared"

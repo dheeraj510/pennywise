@@ -1,7 +1,7 @@
 class TransactionEntry < ActiveRecord::Base
   belongs_to :item
 
-  attr_accessible :check_number, :item_id, :memo, :transacted_at, :entry_type
+  attr_accessible :check_number, :item_id, :memo, :transacted_at, :entry_type, :cleared, :cleared_at
 
   ENTRY_TYPES = ["deposit", "autodraft", "atm", "check", "transfer", "checkcard"]
 

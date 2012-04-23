@@ -18,8 +18,8 @@ describe TransactionEntry do
     it { should allow_mass_assignment_of(:check_number) }
     it { should allow_mass_assignment_of(:memo) }
     it { should allow_mass_assignment_of(:transacted_at) }
-    it { should_not allow_mass_assignment_of(:cleared) }
-    it { should_not allow_mass_assignment_of(:cleared_at) }
+    it { should allow_mass_assignment_of(:cleared) }
+    it { should allow_mass_assignment_of(:cleared_at) }
   end
 
   describe "validations" do

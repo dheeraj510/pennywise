@@ -7,7 +7,7 @@ FactoryGirl.define do
 
   factory :transaction_entry do
     item
-    entry_type      { ["deposit", "autodraft", "atm", "check", "transfer", "checkcard"].sample }
+    entry_type      { TransactionEntry::ENTRY_TYPES.sample }
     check_number    { SecureRandom.random_number(1e4.to_i) }
     memo            { "Payment 1/144" }
     cleared         { false }

@@ -80,7 +80,7 @@ describe ItemsController do
 
     it "should assign @item" do
       assigns(:item).should be_an(Item)
-      assigns(:item).attributes.should eq @item.attributes
+      assigns(:item).id.should eq @item.id
     end
 
     it "should render 'show' template" do
@@ -100,7 +100,7 @@ describe ItemsController do
 
     it "should assign @item" do
       assigns(:item).should be_an(Item)
-      assigns(:item).attributes.should eq @item.attributes
+      assigns(:item).id.should eq @item.id
     end
 
     it "should render 'edit' template" do

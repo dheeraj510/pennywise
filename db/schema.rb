@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120422231458) do
+ActiveRecord::Schema.define(:version => 20120423001234) do
 
   create_table "items", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20120422231458) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "items", ["name", "type"], :name => "index_items_on_name_and_type", :unique => true
 
   create_table "transaction_entries", :force => true do |t|
     t.integer  "item_id"

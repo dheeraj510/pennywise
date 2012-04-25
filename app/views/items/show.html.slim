@@ -1,0 +1,7 @@
+h1 Item
+
+h2 = @item.name
+ul
+	li = @item.item_type
+
+= link_to "Add Transaction", new_item_transaction_path(@item.id)

@@ -31,6 +31,10 @@ describe TransactionEntriesController do
       assigns(:transactions).sample.item_id.should eq @item.id
     end
 
+    it "should assign @balance" do
+      assigns(:balance).should eq @item.transaction_entries.map(&:amount).sum
+    end
+
     it "should render 'index' template" do
       response.should render_template("transaction_entries/index")
     end

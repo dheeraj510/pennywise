@@ -51,6 +51,9 @@ describe TransactionEntry do
 
     it { should_not allow_value('payment').for(:entry_type) }
     it { should_not allow_value('123').for(:entry_type) }
+
+    it { should allow_value(nil).for(:check_number) }
+    it { should allow_value('').for(:check_number) }
   end
 
   describe "methods" do

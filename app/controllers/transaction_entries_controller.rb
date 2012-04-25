@@ -3,6 +3,7 @@ class TransactionEntriesController < ApplicationController
   def index
     @item = Item.find(params[:item_id])
     @transactions = @item.transaction_entries
+    @balance = @transactions.map(&:amount).sum
   end
 
   def new

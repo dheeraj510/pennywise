@@ -9,5 +9,5 @@ ul
 	- if @transaction.cleared
 		li Cleared on: #{@transaction.cleared_at.strftime("%b %d %Y")}
 
-p = link_to "Edit Transaction", edit_item_transaction_path(@transaction.id)
+p = link_to "Edit Transaction", edit_item_transaction_path(item_id: @transaction.item.id, id: @transaction.id)
 p = link_to "Edit Item", edit_item_path(@transaction.item.id)

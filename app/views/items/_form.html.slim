@@ -1,0 +1,13 @@
+= render partial: "layouts/errors_for", locals: { object: @item }
+
+= form_for @item do |f|
+	div#name
+		= f.label :name
+		= f.text_field :name
+	div#item_type_expense
+		= f.radio_button :item_type, "expense"
+		= f.label :item_type_expense, "Expense"
+	div#item_type_income
+		= f.radio_button :item_type, "income"
+		= f.label :item_type_income, "Income"
+	div= f.submit "Add Item"

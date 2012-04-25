@@ -7,7 +7,7 @@
 	div#amount
 		= f.label :amount
 		- if @transaction.item.item_type == "expense"
-			= f.text_field :amount, value: "-"
+			= f.text_field :amount
 		- else
 			= f.text_field :amount
 	div#entry_type

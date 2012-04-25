@@ -1,0 +1,7 @@
+h1 Transaction Entries
+
+ul
+- @transactions.each do |transaction|
+	li #{link_to transaction.item.name, item_path(transaction.item.id)} (#{transaction.item.item_type}) \
+		| #{link_to "Edit Transaction", edit_item_transaction_path(item_id: transaction.item.id, id: transaction.id)} \
+		| link_to "Edit Item", edit_item_path(transaction.item.id)

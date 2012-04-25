@@ -1,0 +1,13 @@
+h1 Transaction Entry
+
+h2 #{link_to @transaction.item.name, item_path(@transaction.item.id)} (#{@transaction.item.item_type})
+ul
+	li Type: #{@transaction.entry_type}
+	li Amount: #{Money.us_dollar(@transaction.amount_value.cents).format}
+	li Date: #{@transaction.transacted_at.strftime("%b %d %Y")}
+
+	- if @transaction.cleared
+		li Cleared on: #{@transaction.cleared_at.strftime("%b %d %Y")}
+
+p = link_to "Edit Transaction", edit_item_transaction_path(@transaction.id)
+p = link_to "Edit Item", edit_item_path(@transaction.item.id)

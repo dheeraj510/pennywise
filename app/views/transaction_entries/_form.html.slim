@@ -1,0 +1,29 @@
+= render partial: "layouts/errors_for", locals: { object: @transaction }
+
+= form_for @transaction, url: uri do |f|
+	div#transacted_at
+		= f.label :transacted_at
+		= f.date_select :transacted_at
+	div#amount
+		= f.label :amount
+		- if @transaction.item.item_type == "expense"
+			= f.text_field :amount, value: "- "
+		- else
+			= f.text_field :amount
+	div#entry_type
+		= f.label :entry_type
+		= f.select :entry_type, options_for_select(TransactionEntry::ENTRY_TYPES, @transaction.entry_type), include_blank: "Please select a type"
+	div#optional_fields Optional Fields
+	div#check_number
+		= f.label :check_number
+		= f.text_field :check_number
+	div#memo
+		= f.label :memo
+		= f.text_field :memo
+	div#cleared
+		= f.check_box :cleared
+		= f.label :cleared
+	div#cleared_at
+		= f.label :cleared_at
+		= f.date_select :cleared_at
+	div= f.submit "Add Transaction"

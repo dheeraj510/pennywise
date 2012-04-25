@@ -1,2 +1,15 @@
-h1 Home#index
-p Find me in app/views/home/index.html.slim
+h1 Pennywise
+
+p Start by #{link_to "Adding an Item", new_item_path} or select an Item below and Add a Transaction for it!
+
+- if @items.present?
+	h2 Items
+	ul
+	- @items.each do |item|
+		li #{link_to item.name, item_path(item.id)} (#{item.item_type}) #{link_to "Add Transaction", new_item_transaction_path(item.id)}
+
+- if @transactions.present?
+	h2 Transactions
+	ul
+	- @transactions.each do |transaction|
+		li #{link_to transaction.item.name, item_transaction_path(item_id: transaction.item.id, id: transaction.id)} (#{transaction.item.item_type}) | #{link_to "Edit Transaction", edit_item_transaction_path(item_id: transaction.item.id, id: transaction.id)} | #{link_to "Edit Item", edit_item_path(transaction.item.id)}

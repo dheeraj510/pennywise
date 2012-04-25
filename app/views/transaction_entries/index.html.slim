@@ -1,5 +1,7 @@
 h1 Transaction Entries
 
+h2 Current Balance: #{Money.us_dollar(@balance).format}
+
 ul
 - @transactions.each do |transaction|
 	li #{link_to transaction.item.name, item_transaction_path(item_id: transaction.item.id, id: transaction.id)} (#{transaction.item.item_type}) | #{link_to "Edit Transaction", edit_item_transaction_path(item_id: transaction.item.id, id: transaction.id)} | #{link_to "Edit Item", edit_item_path(transaction.item.id)}
